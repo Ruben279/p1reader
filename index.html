@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+
+    <title>P1 Meter live data</title>
+  </head>
+  <body>
+    <h1>P1 Meter live data</h1>
+    <div id="data">
+      <!-- Hier komt de data van de API -->
+    </div>
+    <script>
+      function getData() {
+        fetch('http://192.168.1.211/api/v1/data')
+          .then(response => response.json())
+          .then(data => {
+            // Verwerk de data en voeg het toe aan de HTML pagina
+            var dataDiv = document.getElementById('data');
+            dataDiv.innerHTML = ''; // Maak de inhoud van de div leeg voordat de nieuwe data wordt toegevoegd
+            dataDiv.innerHTML += '<p><b>Meter model:</b> ' + data.meter_model + '</p>';
+            dataDiv.innerHTML += '<p><b>WiFi strength:</b> ' + data.wifi_strength + '</p>';
+            dataDiv.innerHTML += '<p><b>Active power (W)</b>: ' + data.active_power_w + '</p>';
+            dataDiv.innerHTML += '<p><b>Total gas (m3):</b>' + data.total_gas_m3 + '</p>';
+            dataDiv.innerHTML += '<p><b>Gas timestamp:</b> ' + data.gas_timestamp + '</p>';
+          });
+      }
+      
+      // Roep de functie elke 5 seconden op
+      setInterval(getData, 5000);
+    </script>
+  </body>
+</html>
